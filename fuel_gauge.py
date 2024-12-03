@@ -13,23 +13,29 @@ class FuelGauge:
             >>> gauge_to_fuel("1/2")
             50
         """
-        
-        num, denom = fuel.split("/")
         try:
-            if int(num) > int(denom):
-                print("Numerator greater than denominator. Try again!")
-                return self.main()
+            num, denom = fuel.split("/")
         except ValueError:
-            print(f"One or both inputs not integers! Try again.")
             return self.main()
         else:
+            if type(num) == float or type(denom) == float:
+                raise ValueError
             try:
-                percentage = round(int(num) / int(denom) * 100)
+                if int(denom) == 0:
+                    raise ZeroDivisionError
+                else:
+                    if int(num) > int(denom):
+                        print("Numerator greater than denominator. Try again!")
+                        return self.main()
+            except ValueError:
+                print(f"One or both inputs not integers! Try again.")
+                return self.main()
             except ZeroDivisionError:
                 print(f"Erro! Division by zero")
                 return self.main()
             else:
-                return percentage
+                return round(int(num) / int(denom) * 100)
+                
     def fuel_output(self, fuel: int) -> str:
         """_Convert fuel to str to output on the screen_
 
